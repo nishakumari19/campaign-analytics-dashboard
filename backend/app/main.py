@@ -11,7 +11,8 @@ models.Base.metadata.create_all(bind=database.engine)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     db = database.SessionLocal()
-    seed_data(db)
+    if db.query(models.Campaign).count() == 0:
+        seed_data(db)
     db.close()
     yield
 
@@ -20,7 +21,7 @@ app = FastAPI(lifespan=lifespan)
 # 🔥 Add CORS middleware right after app creation
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://campaign-analytics-dashboard-d2q0ket3fz.vercel.app"],  # <-- Replace with your actual Vercel domain
+    allow_origins=["https://campaign-analytics-dashboard-mspetaz47.vercel.app"],  # <-- Replace with your actual Vercel domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
