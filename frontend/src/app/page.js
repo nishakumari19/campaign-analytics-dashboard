@@ -7,7 +7,7 @@ export default function Home() {
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
-    fetch("https://your-backend-url/campaigns")
+    fetch("https://campaign-analytics-dashboard-production.up.railway.app/campaigns")
       .then((res) => res.json())
       .then(setCampaigns);
   }, []);
