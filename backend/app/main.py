@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware  # 🔥 Import this
 from . import models, database
 from app.seed import seed_data
 from contextlib import asynccontextmanager
@@ -15,6 +16,15 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
+
+# 🔥 Add CORS middleware right after app creation
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://campaign-analytics-dashboard-d2q0ket3fz.vercel.app"],  # <-- Replace with your actual Vercel domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_db():
     db = database.SessionLocal()
