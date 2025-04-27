@@ -44,10 +44,10 @@ export default function Home() {
           {filteredCampaigns.map((c) => (
             <tr key={c.id}>
               <td className="p-2 border">{c.name}</td>
-              <td className="p-2 border">{c.status}</td>
-              <td className="p-2 border">{c.clicks}</td>
-              <td className="p-2 border">${c.cost.toFixed(2)}</td>
-              <td className="p-2 border">{c.impressions}</td>
+              <td className="p-2 border text-center">{c.status}</td>
+              <td className="p-2 border text-center">{c.clicks}</td>
+              <td className="p-2 border text-center">${c.cost.toFixed(2)}</td>
+              <td className="p-2 border text-center">{c.impressions}</td>
             </tr>
           ))}
         </tbody>
