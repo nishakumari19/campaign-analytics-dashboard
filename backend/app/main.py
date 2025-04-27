@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from fastapi.middleware.cors import CORSMiddleware  # 🔥 Import this
+from fastapi.middleware.cors import CORSMiddleware  #Import this
 from . import models, database
 from app.seed import seed_data
 from contextlib import asynccontextmanager
@@ -18,10 +18,10 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-# 🔥 Add CORS middleware right after app creation
+#Add CORS middleware right after app creation
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://campaign-analytics-dashboard-mspetaz47.vercel.app"],  # <-- Replace with your actual Vercel domain
+    allow_origins=["https://campaign-analytics-dashboard.vercel.app"],  # <-- Replace with your actual Vercel domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -40,5 +40,8 @@ def read_campaigns(db: Session = Depends(get_db)):
 
 @app.post("/seed")
 def seed_database(db: Session = Depends(get_db)):
-    seed_data(db)
-    return {"message": "Database seeded successfully"}
+    if db.query(models.Campaign).count() == 0:
+        seed_data(db)
+        return {"message": "Database seeded successfully"}
+    else:
+        return {"message": "Database already seeded, no action taken"}
