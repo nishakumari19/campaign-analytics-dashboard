@@ -1,6 +1,8 @@
 from app.models import Campaign
 
 def seed_data(db):
+    db.query(Campaign).delete()
+    db.commit()
     campaigns = [
         Campaign(name="Summer Sale", status="Active", clicks=150, cost=45.99, impressions=1000),
         Campaign(name="Black Friday", status="Paused", clicks=320, cost=89.50, impressions=2500),
